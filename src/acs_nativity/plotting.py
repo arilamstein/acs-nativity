@@ -33,10 +33,26 @@ def _add_annotations(fig, df):
         )
 
 
-def plot_nativity_timeseries(df, column, title="", y_label=None, add_annotations=True):
-    labels = {}
-    if y_label is not None:
-        labels[column] = y_label
+def _add_source_footer(
+    fig, source_text="Source: American Community Survey 1-Year Estimates"
+):
+    fig.add_annotation(
+        text=source_text,
+        x=0,
+        y=-0.15,
+        xref="paper",
+        yref="paper",
+        showarrow=False,
+        xanchor="left",
+        yanchor="top",
+        font=dict(size=12, color="gray"),
+    )
+
+
+def plot_nativity_timeseries(
+    df, column, title="", y_label="Population", add_annotations=True, add_source=True
+):
+    labels = {"Year": "", column: y_label}
 
     fig = px.line(
         df,
@@ -50,18 +66,24 @@ def plot_nativity_timeseries(df, column, title="", y_label=None, add_annotations
     if add_annotations:
         _add_annotations(fig, df)
 
+    if add_source:
+        _add_source_footer(fig)
+
     return fig
 
 
 def plot_nativity_change(
-    df, column, title="", y_label="Population Change", add_annotations=True
+    df,
+    column,
+    title="",
+    y_label="Population Change",
+    add_annotations=True,
+    add_source=True,
 ):
     df = df.copy()
     df[column] = df[column].diff()
 
-    labels = {}
-    if y_label is not None:
-        labels[column] = y_label
+    labels = {"Year": "", column: y_label}
 
     fig = px.bar(
         df,
@@ -73,5 +95,8 @@ def plot_nativity_change(
 
     if add_annotations:
         _add_annotations(fig, df)
+
+    if add_source:
+        _add_source_footer(fig)
 
     return fig

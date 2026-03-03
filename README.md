@@ -34,8 +34,7 @@ df = get_nativity_timeseries(us="*")
 plot_nativity_timeseries(
     df,
     column="Foreign-born",
-    title="Foreign-Born Population in the United States<br>ACS 1-Year Estimates",
-    y_label="Population",
+    title="Foreign-Born Population in the United States",
 )
 ```
 
@@ -46,7 +45,7 @@ plot_nativity_timeseries(
 plot_nativity_change(
     df,
     column="Foreign-born",
-    title="Change in the US Foreign-Born Population<br>ACS 1-Year Estimates",
+    title="Change in the US Foreign-Born Population",
 )
 ```
 
@@ -54,4 +53,4 @@ plot_nativity_change(
 
 ## Learning More
 
-To learn more about how to use `acs-nativity`, including how to work with other geographies (such as individual states and counties), see [Getting Started Notebook](notebooks/getting_started.ipynb).
+To learn more about how to use `acs-nativity`, including how to work with other geographies (such as states, counties, and cities), see the [Getting Started Notebook](notebooks/getting_started.ipynb).
