@@ -45,8 +45,8 @@ plot_nativity_timeseries(
 # Plot year-over-year change
 plot_nativity_change(
     df,
-    "Foreign-born",
-    "Change in the US Foreign-Born Population<br>ACS 1-Year Estimates",
+    column="Foreign-born",
+    title="Change in the US Foreign-Born Population<br>ACS 1-Year Estimates",
 )
 ```
 
