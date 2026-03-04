@@ -22,6 +22,7 @@ build-backend = "uv_build"
 dev = [
     "ipykernel>=7.2.0",
     "ruff>=0.15.4",
+    "streamlit>=1.55.0",
 ]
 
 [tool.ruff.lint.per-file-ignores]
