@@ -1,9 +1,10 @@
 from censusdis.multiyear import download_multiyear
 from censusdis.datasets import ACS1
 import pandas as pd
+from typing import Any
 
 
-def _normalize_columns(df):
+def _normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     """
     The earlier table (B05002) has columns that are not present in the newer
     table (B05012). The newer table also hyphenates "Foreign-born".
@@ -16,7 +17,7 @@ def _normalize_columns(df):
     return df
 
 
-def get_nativity_timeseries(**kwargs):
+def get_nativity_timeseries(**kwargs: Any) -> pd.DataFrame:
     # From 2005-8 the data we want is in table B05002
     df1 = download_multiyear(
         dataset=ACS1,

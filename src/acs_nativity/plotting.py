@@ -1,7 +1,9 @@
 import plotly.express as px
+import pandas as pd
+from typing import Any
 
 
-def _generate_timeseries_title(df, column):
+def _generate_timeseries_title(df: pd.DataFrame, column: str) -> str:
 
     allowed = ["Total", "Native", "Foreign-born", "Percent Foreign-born"]
     if column not in allowed:
@@ -25,24 +27,24 @@ def _generate_timeseries_title(df, column):
     return f"{label} in {geo_name}"
 
 
-def _generate_change_title(df, column):
+def _generate_change_title(df: pd.DataFrame, column: str) -> str:
     ts_title = _generate_timeseries_title(df, column)
     return f"Change in {ts_title}"
 
 
-def _generate_timeseries_y_label(column):
+def _generate_timeseries_y_label(column: str) -> str:
     if column == "Percent Foreign-born":
         return "Percent"
     else:
         return "Population"
 
 
-def _generate_change_y_label(column):
+def _generate_change_y_label(column: str) -> str:
     ts_label = _generate_timeseries_y_label(column)
     return f"Change in {ts_label}"
 
 
-def _add_annotations(fig, df, column):
+def _add_annotations(fig: Any, df: pd.DataFrame, column: str) -> None:
     administrations = [
         {"President": "Bush 2", "Start": 2005},
         {"President": "Obama 1", "Start": 2009},
@@ -75,8 +77,8 @@ def _add_annotations(fig, df, column):
 
 
 def _add_source_footer(
-    fig, source_text="Source: American Community Survey 1-Year Estimates"
-):
+    fig: Any, source_text: str = "Source: American Community Survey 1-Year Estimates"
+) -> None:
     fig.add_annotation(
         text=source_text,
         x=0,
@@ -91,8 +93,13 @@ def _add_source_footer(
 
 
 def plot_nativity_timeseries(
-    df, column, title=None, y_label=None, add_annotations=True, add_source=True
-):
+    df: pd.DataFrame,
+    column: str,
+    title: str | None = None,
+    y_label: str | None = None,
+    add_annotations: bool = True,
+    add_source: bool = True,
+) -> Any:
     if title is None:
         title = _generate_timeseries_title(df, column)
 
@@ -121,13 +128,13 @@ def plot_nativity_timeseries(
 
 
 def plot_nativity_change(
-    df,
-    column,
-    title=None,
-    y_label=None,
-    add_annotations=True,
-    add_source=True,
-):
+    df: pd.DataFrame,
+    column: str,
+    title: str | None = None,
+    y_label: str | None = None,
+    add_annotations: bool = True,
+    add_source: bool = True,
+) -> Any:
     df = df.copy()
     df[column] = df[column].diff()
 

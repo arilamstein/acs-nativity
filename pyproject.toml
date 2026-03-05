@@ -21,6 +21,8 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
     "ipykernel>=7.2.0",
+    "mypy>=1.19.1",
+    "pandas-stubs>=2.3.3.260113",
     "ruff>=0.15.4",
     "streamlit>=1.55.0",
 ]
@@ -30,3 +32,11 @@ dev = [
 
 [tool.ruff]
 exclude = ["scratch.ipynb"]
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_return_any = true
+no_implicit_optional = true
+
