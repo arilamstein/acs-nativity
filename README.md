@@ -1,5 +1,6 @@
 # acs-nativity
 [![CI](https://github.com/arilamstein/acs-nativity/actions/workflows/python-package.yml/badge.svg?branch=main&event=push)](https://github.com/arilamstein/acs-nativity/actions/workflows/python-package.yml)
+
 `acs-nativity` is a Python package for analyzing immigration trends in the United States using data from the American Community Survey (ACS). It provides a simple interface for downloading and visualizing data on the native-born and foreign-born population.
 
 The package provides data as a time series covering the full span of ACS 1-year estimates (2005-2024). Under the hood, the package harmonizes two ACS tables: `B05002` (2005-2008) and `B05012` (2009 onward). The 2025 ACS 1-year estimates are expected to be released in September 2026. The Census Bureau did not release ACS 1-year estimates in 2020. 
