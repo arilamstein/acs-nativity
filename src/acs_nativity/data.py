@@ -22,12 +22,12 @@ def _normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def get_nativity_timeseries(**kwargs: Any) -> pd.DataFrame:
+def get_nativity_timeseries(*, end_year: int = 2024, **kwargs: Any) -> pd.DataFrame:
     """
-    Retrieve a continuous ACS 1-year nativity time series from 2005–2024.
+    Retrieve a continuous ACS 1-year nativity time series from 2005 through `end_year`.
 
     This function stitches together ACS table B05002 (used from 2005–2008) and
-    ACS table B05012 (used from 2009–2024, excluding 2020 when no 1-year ACS
+    ACS table B05012 (used from 2009–`end_year`, excluding 2020 when no 1-year ACS
     was released) into a single, normalized DataFrame. It also adds a derived
     column, "Percent Foreign-born", for convenience.
 
@@ -37,8 +37,9 @@ def get_nativity_timeseries(**kwargs: Any) -> pd.DataFrame:
     censusdis documentation.
 
     Args:
+        end_year (int): Last ACS 1-year vintage to include. Defaults to 2024.
         **kwargs: Keyword arguments forwarded to `download_multiyear`, typically
-            specifying geography or other censusdis parameters.
+            specifying geography.
 
     Returns:
         pd.DataFrame: A DataFrame with nativity counts for each year, including
@@ -71,29 +72,33 @@ def get_nativity_timeseries(**kwargs: Any) -> pd.DataFrame:
             )
     """
 
-    # From 2005-8 the data we want is in table B05002
+    if end_year < 2005:
+        raise ValueError("end_year must be >= 2005 for ACS 1-year nativity data.")
+
+    # 2005–2008: B05002
     df1 = download_multiyear(
         dataset=ACS1,
-        vintages=list(range(2005, 2009)),
+        vintages=[y for y in range(2005, min(end_year, 2008) + 1)],
         group="B05002",
         drop_cols=False,
         **kwargs,
     )
     df1 = _normalize_columns(df1)
 
-    # In later years, use B05012. Note that no ACS1 was published in 2020
-    df2 = download_multiyear(
-        dataset=ACS1,
-        vintages=[year for year in range(2009, 2025) if year != 2020],
-        group="B05012",
-        drop_cols=False,
-        **kwargs,
-    )
-    df2 = _normalize_columns(df2)
+    # 2009–end_year (excluding 2020): B05012
+    if end_year >= 2009:
+        vintages = [y for y in range(2009, end_year + 1) if y != 2020]
+        df2 = download_multiyear(
+            dataset=ACS1,
+            vintages=vintages,
+            group="B05012",
+            drop_cols=False,
+            **kwargs,
+        )
+        df2 = _normalize_columns(df2)
+        df = pd.concat([df1, df2], ignore_index=True)
+    else:
+        df = df1
 
-    df = pd.concat([df1, df2], ignore_index=True)
-
-    # Add a column that will be useful for analysts, even though it's not returned by the API.
     df["Percent Foreign-born"] = df["Foreign-born"] / df["Total"] * 100
-
     return df
