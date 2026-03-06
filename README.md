@@ -49,8 +49,11 @@ The parameter `us="*"` tells `get_nativity_timeseries` to return data for the en
 To plot a time series of the dataframe, call `plot_nativity_timeseries` and specify the column you want to chart. Most chart details (e.g., title and axis labels) are handled automatically, and annotations show when presidential administrations changed.
 
 ```python
-plot_nativity_timeseries(df, column="Foreign-born")
+fig = plot_nativity_timeseries(df, column="Foreign-born")
+fig.show()
 ```
+
+**Note:** In Jupyter notebooks, you can simply call `plot_nativity_timeseries(df, column="Foreign-born")` as the last line of a cell and the figure will render automatically. In a Python REPL or script, assign the figure to a variable and call `.show()`.
 
  ![Foreign-Born Population](images/nativity_us.png)
 
@@ -61,8 +64,11 @@ This graph shows that the foreign-born population has increased steadily since 2
 Sometimes it is helpful to show the year-over-year changes instead of raw values. To do that, call `plot_nativity_change` with a dataframe and a column: 
 
 ```python
-plot_nativity_change(df, column="Foreign-born")
+fig = plot_nativity_change(df, column="Foreign-born")
+fig.show()
 ```
+
+**Note:** In Jupyter notebooks, you can simply call `plot_nativity_timeseries(df, column="Foreign-born")` as the last line of a cell and the figure will render automatically. In a Python REPL or script, assign the figure to a variable and call `.show()`.
 
 ![Year-over-Year Change](images/nativity_us_diff.png)
 
