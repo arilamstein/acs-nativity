@@ -68,7 +68,7 @@ fig = plot_nativity_change(df, column="Foreign-born")
 fig.show()
 ```
 
-**Note:** In Jupyter notebooks, you can simply call `plot_nativity_timeseries(df, column="Foreign-born")` as the last line of a cell and the figure will render automatically. In a Python REPL or script, assign the figure to a variable and call `.show()`.
+**Note:** In Jupyter notebooks, you can simply call `plot_nativity_change(df, column="Foreign-born")` as the last line of a cell and the figure will render automatically. In a Python REPL or script, assign the figure to a variable and call `.show()`.
 
 ![Year-over-Year Change](images/nativity_us_diff.png)
 
@@ -99,6 +99,6 @@ Below are examples for several common geographies.
 
 **Note:** The keyword for MSAs is
 `metropolitan_statistical_area_micropolitan_statistical_area`,
-which is too long to display cleanly inside the table. It is still the correct keyword to use when calling `get_nativity_timeseries`.
+which is too long to display cleanly inside the table.
 
 You can learn more in the [Additional Geographies](https://censusdis.readthedocs.io/en/stable/intro.html#additional-geographies) section of the `censusdis` documentation. 
