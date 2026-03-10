@@ -62,3 +62,6 @@ filterwarnings = [
     "ignore:The 'shapely.geos' module is deprecated"
 ]
 
+[project.urls]
+Homepage = "https://github.com/arilamstein/acs-nativity"
+Issues = "https://github.com/arilamstein/acs-nativity/issues"
