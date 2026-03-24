@@ -145,11 +145,10 @@ def plot_nativity_timeseries(
     if title is None:
         title = _generate_timeseries_title(df, column)
 
+    # Don't use the column name (ex. "Total") for the y-axis
     if y_label is None:
         y_label = _generate_timeseries_y_label(column)
-
-    # Overwrite default names for x- and y-axes
-    labels = {"Year": "", column: y_label}
+    labels = {column: y_label}
 
     fig = px.line(
         df,
@@ -159,6 +158,10 @@ def plot_nativity_timeseries(
         markers=True,
         labels=labels,
     )
+
+    # The year is obvious and doesn't need a label on the x-axis
+    # Doing it this way (instead of with the label) keeps it for the tool tip
+    fig.update_xaxes(title_text="")
 
     if add_annotations:
         _add_annotations(fig, df, column)
@@ -221,11 +224,10 @@ def plot_nativity_change(
     if title is None:
         title = _generate_change_title(df, column)
 
+    # Don't use the column name (ex. "Total") for the y-axis
     if y_label is None:
         y_label = _generate_change_y_label(column)
-
-    # Overwrite default names for x- and y-axes
-    labels = {"Year": "", column: y_label}
+    labels = {column: y_label}
 
     fig = px.bar(
         df,
@@ -234,6 +236,10 @@ def plot_nativity_change(
         title=title,
         labels=labels,
     )
+
+    # The year is obvious and doesn't need a label on the x-axis
+    # Doing it this way (instead of with the label) keeps it for the tool tip
+    fig.update_xaxes(title_text="")
 
     if add_annotations:
         _add_annotations(fig, df, column)

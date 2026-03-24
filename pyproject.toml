@@ -1,6 +1,6 @@
 [project]
 name = "acs-nativity"
-version = "0.1.2"
+version = "0.1.3"
 description = "Tools for accessing and visualizing historical ACS 1-Year nativity data for the United States and subnational geographies."
 readme = "README.md"
 license = { file = "LICENSE" }
