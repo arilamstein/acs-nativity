@@ -9,6 +9,35 @@ import pandas as pd
 from typing import Any
 
 
+def _add_numeric_hovertemplate(fig: Any, y_label: str) -> None:
+    """
+    Used for styling commas numbers in hover text.
+    Ex.: "Total Population: 123,456,789".
+    """
+    fig.update_traces(
+        hovertemplate=(f"Year: %{{x}}<br>{y_label}: %{{y:,.0f}}<extra></extra>")
+    )
+
+
+def _add_percent_hovertemplate(
+    fig: Any, y_label: str, precision: int, show_percent_sign: bool
+) -> None:
+    """
+    Format percent values in hover text.
+
+    Examples:
+    - Level percent (e.g., 12.3%): precision=1, show_percent_sign=True
+    - Percentage-point change (e.g., 0.12): precision=2, show_percent_sign=False
+    """
+    percent_sign = "%" if show_percent_sign else ""
+    fig.update_traces(
+        hovertemplate=(
+            "Year: %{x}<br>"
+            f"{y_label}: %{{y:.{precision}f}}{percent_sign}<extra></extra>"
+        )
+    )
+
+
 def _generate_timeseries_title(df: pd.DataFrame, column: str) -> str:
 
     allowed = ["Total", "Native", "Foreign-born", "Percent Foreign-born"]
@@ -163,6 +192,11 @@ def plot_nativity_timeseries(
     # Doing it this way (instead of with the label) keeps it for the tool tip
     fig.update_xaxes(title_text="")
 
+    if column == "Percent Foreign-born":
+        _add_percent_hovertemplate(fig, y_label, precision=1, show_percent_sign=True)
+    else:
+        _add_numeric_hovertemplate(fig, y_label)
+
     if add_annotations:
         _add_annotations(fig, df, column)
 
@@ -240,6 +274,11 @@ def plot_nativity_change(
     # The year is obvious and doesn't need a label on the x-axis
     # Doing it this way (instead of with the label) keeps it for the tool tip
     fig.update_xaxes(title_text="")
+
+    if column == "Percent Foreign-born":
+        _add_percent_hovertemplate(fig, y_label, precision=2, show_percent_sign=False)
+    else:
+        _add_numeric_hovertemplate(fig, y_label)
 
     if add_annotations:
         _add_annotations(fig, df, column)
